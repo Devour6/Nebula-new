@@ -13,9 +13,30 @@ import { useToast } from "@/hooks/use-toast";
 
 type ModalType = "stake" | "unstake" | "security" | "tools" | null;
 
+function useWindowSize() {
+  const [windowSize, setWindowSize] = useState({
+    width: typeof window !== "undefined" ? window.innerWidth : 1200,
+    height: typeof window !== "undefined" ? window.innerHeight : 800,
+  });
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    }
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  return windowSize;
+}
+
 export default function Home() {
   const [mousePosition, setMousePosition] = useState({ x: 0.5, y: 0.5 });
   const [activeModal, setActiveModal] = useState<ModalType>(null);
+  const { width } = useWindowSize();
   
   const { walletAddress, isConnecting, balance, stakedBalance, connect, disconnect, isConnected } = useWallet();
   const { stake, unstake, isStaking, isUnstaking } = useStaking();
@@ -61,8 +82,17 @@ export default function Home() {
 
   const closeModal = () => setActiveModal(null);
 
+  const isMobile = width < 640;
+  const isTablet = width >= 640 && width < 1024;
+
+  const getPlanetSize = (baseSize: number) => {
+    if (isMobile) return Math.round(baseSize * 0.5);
+    if (isTablet) return Math.round(baseSize * 0.7);
+    return baseSize;
+  };
+
   return (
-    <div className="relative min-h-screen bg-black overflow-hidden">
+    <div className="relative min-h-screen bg-background overflow-hidden">
       <StarField mousePosition={mousePosition} />
       
       <Header
@@ -72,52 +102,97 @@ export default function Home() {
         isConnecting={isConnecting}
       />
 
-      <main className="relative z-10 flex items-center justify-center min-h-screen">
-        <div className="relative w-full max-w-6xl mx-auto px-8">
-          <div className="absolute left-[5%] top-1/2 -translate-y-1/2">
-            <Planet
-              type="stake"
-              label="Stake"
-              size={200}
-              onClick={() => handlePlanetClick("stake")}
-              mousePosition={mousePosition}
-              delay={0}
-            />
+      <main className="relative z-10 flex items-center justify-center min-h-screen px-4 sm:px-8">
+        {isMobile ? (
+          <div className="grid grid-cols-2 gap-6 py-20">
+            <div className="flex justify-center">
+              <Planet
+                type="stake"
+                label="Stake"
+                size={getPlanetSize(280)}
+                onClick={() => handlePlanetClick("stake")}
+                mousePosition={mousePosition}
+                delay={0}
+              />
+            </div>
+            <div className="flex justify-center">
+              <Planet
+                type="unstake"
+                label="Unstake"
+                size={getPlanetSize(200)}
+                onClick={() => handlePlanetClick("unstake")}
+                mousePosition={mousePosition}
+                delay={0.1}
+              />
+            </div>
+            <div className="flex justify-center">
+              <Planet
+                type="security"
+                label="Security"
+                size={getPlanetSize(140)}
+                onClick={() => handlePlanetClick("security")}
+                mousePosition={mousePosition}
+                delay={0.2}
+              />
+            </div>
+            <div className="flex justify-center">
+              <Planet
+                type="tools"
+                label="Tools"
+                size={getPlanetSize(110)}
+                onClick={() => handlePlanetClick("tools")}
+                mousePosition={mousePosition}
+                delay={0.3}
+              />
+            </div>
           </div>
+        ) : (
+          <div className="relative w-full max-w-6xl mx-auto" style={{ height: "70vh" }}>
+            <div className="absolute left-[5%] top-1/2 -translate-y-1/2">
+              <Planet
+                type="stake"
+                label="Stake"
+                size={getPlanetSize(280)}
+                onClick={() => handlePlanetClick("stake")}
+                mousePosition={mousePosition}
+                delay={0}
+              />
+            </div>
 
-          <div className="absolute left-[45%] top-[30%] -translate-x-1/2">
-            <Planet
-              type="unstake"
-              label="Unstake"
-              size={150}
-              onClick={() => handlePlanetClick("unstake")}
-              mousePosition={mousePosition}
-              delay={0.1}
-            />
-          </div>
+            <div className="absolute left-[40%] top-[25%] -translate-x-1/2">
+              <Planet
+                type="unstake"
+                label="Unstake"
+                size={getPlanetSize(200)}
+                onClick={() => handlePlanetClick("unstake")}
+                mousePosition={mousePosition}
+                delay={0.1}
+              />
+            </div>
 
-          <div className="absolute right-[10%] bottom-[15%]">
-            <Planet
-              type="security"
-              label="Security"
-              size={100}
-              onClick={() => handlePlanetClick("security")}
-              mousePosition={mousePosition}
-              delay={0.2}
-            />
-          </div>
+            <div className="absolute right-[8%] bottom-[20%]">
+              <Planet
+                type="security"
+                label="Security"
+                size={getPlanetSize(140)}
+                onClick={() => handlePlanetClick("security")}
+                mousePosition={mousePosition}
+                delay={0.2}
+              />
+            </div>
 
-          <div className="absolute right-[25%] top-[20%]">
-            <Planet
-              type="tools"
-              label="Tools"
-              size={80}
-              onClick={() => handlePlanetClick("tools")}
-              mousePosition={mousePosition}
-              delay={0.3}
-            />
+            <div className="absolute right-[20%] top-[15%]">
+              <Planet
+                type="tools"
+                label="Tools"
+                size={getPlanetSize(110)}
+                onClick={() => handlePlanetClick("tools")}
+                mousePosition={mousePosition}
+                delay={0.3}
+              />
+            </div>
           </div>
-        </div>
+        )}
       </main>
 
       <Footer />
