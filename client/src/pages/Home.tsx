@@ -147,45 +147,45 @@ export default function Home() {
             </div>
           </div>
         ) : (
-          <div className="relative w-full max-w-6xl mx-auto" style={{ height: "70vh" }}>
-            <div className="absolute left-[5%] top-1/2 -translate-y-1/2">
+          <div className="relative w-full max-w-6xl mx-auto" style={{ height: "80vh" }}>
+            <div className="absolute left-[2%] top-[55%] -translate-y-1/2">
               <Planet
                 type="stake"
                 label="Stake"
-                size={getPlanetSize(280)}
+                size={getPlanetSize(260)}
                 onClick={() => handlePlanetClick("stake")}
                 mousePosition={mousePosition}
                 delay={0}
               />
             </div>
 
-            <div className="absolute left-[40%] top-[25%] -translate-x-1/2">
+            <div className="absolute left-[35%] top-[15%]">
               <Planet
                 type="unstake"
                 label="Unstake"
-                size={getPlanetSize(200)}
+                size={getPlanetSize(180)}
                 onClick={() => handlePlanetClick("unstake")}
                 mousePosition={mousePosition}
                 delay={0.1}
               />
             </div>
 
-            <div className="absolute right-[8%] bottom-[20%]">
+            <div className="absolute right-[5%] bottom-[25%]">
               <Planet
                 type="security"
                 label="Security"
-                size={getPlanetSize(140)}
+                size={getPlanetSize(130)}
                 onClick={() => handlePlanetClick("security")}
                 mousePosition={mousePosition}
                 delay={0.2}
               />
             </div>
 
-            <div className="absolute right-[20%] top-[15%]">
+            <div className="absolute right-[30%] top-[8%]">
               <Planet
                 type="tools"
                 label="Tools"
-                size={getPlanetSize(110)}
+                size={getPlanetSize(100)}
                 onClick={() => handlePlanetClick("tools")}
                 mousePosition={mousePosition}
                 delay={0.3}
