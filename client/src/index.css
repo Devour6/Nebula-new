@@ -220,32 +220,24 @@
   50% { opacity: 1; }
 }
 
-@keyframes float-1 {
-  0%, 100% { transform: translateY(0px) translateX(0px); }
-  25% { transform: translateY(-15px) translateX(5px); }
-  50% { transform: translateY(-5px) translateX(-3px); }
-  75% { transform: translateY(-20px) translateX(2px); }
+@keyframes orbit-1 {
+  0% { transform: rotate(0deg) translateX(8px) rotate(0deg); }
+  100% { transform: rotate(360deg) translateX(8px) rotate(-360deg); }
 }
 
-@keyframes float-2 {
-  0%, 100% { transform: translateY(0px) translateX(0px); }
-  25% { transform: translateY(-12px) translateX(-4px); }
-  50% { transform: translateY(-8px) translateX(5px); }
-  75% { transform: translateY(-15px) translateX(-2px); }
+@keyframes orbit-2 {
+  0% { transform: rotate(0deg) translateX(6px) rotate(0deg); }
+  100% { transform: rotate(-360deg) translateX(6px) rotate(360deg); }
 }
 
-@keyframes float-3 {
-  0%, 100% { transform: translateY(0px) translateX(0px); }
-  25% { transform: translateY(-10px) translateX(3px); }
-  50% { transform: translateY(-5px) translateX(-4px); }
-  75% { transform: translateY(-8px) translateX(2px); }
+@keyframes orbit-3 {
+  0% { transform: rotate(0deg) translateX(5px) rotate(0deg); }
+  100% { transform: rotate(360deg) translateX(5px) rotate(-360deg); }
 }
 
-@keyframes float-4 {
-  0%, 100% { transform: translateY(0px) translateX(0px); }
-  25% { transform: translateY(-14px) translateX(-3px); }
-  50% { transform: translateY(-6px) translateX(4px); }
-  75% { transform: translateY(-18px) translateX(-1px); }
+@keyframes orbit-4 {
+  0% { transform: rotate(0deg) translateX(4px) rotate(0deg); }
+  100% { transform: rotate(-360deg) translateX(4px) rotate(360deg); }
 }
 
 @keyframes rotate-slow {
@@ -260,11 +252,17 @@
 
 @keyframes shooting-star {
   0% { 
-    transform: translateX(0) translateY(0) rotate(-45deg); 
-    opacity: 1; 
+    transform: translateX(0) translateY(0);
+    opacity: 0; 
+  }
+  5% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
   }
   100% { 
-    transform: translateX(400px) translateY(400px) rotate(-45deg); 
+    transform: translateX(250px) translateY(180px);
     opacity: 0; 
   }
 }
@@ -312,19 +310,19 @@
 }
 
 .animate-float-1 {
-  animation: float-1 8s ease-in-out infinite;
+  animation: orbit-1 45s linear infinite;
 }
 
 .animate-float-2 {
-  animation: float-2 10s ease-in-out infinite;
+  animation: orbit-2 55s linear infinite;
 }
 
 .animate-float-3 {
-  animation: float-3 6s ease-in-out infinite;
+  animation: orbit-3 35s linear infinite;
 }
 
 .animate-float-4 {
-  animation: float-4 9s ease-in-out infinite;
+  animation: orbit-4 40s linear infinite;
 }
 
 .animate-rotate-slow {

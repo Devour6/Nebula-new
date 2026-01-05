@@ -14,8 +14,6 @@ interface ShootingStar {
   id: number;
   x: number;
   y: number;
-  angle: number;
-  length: number;
 }
 
 interface StarFieldProps {
@@ -71,15 +69,13 @@ export function StarField({ mousePosition }: StarFieldProps) {
   const spawnShootingStar = useCallback(() => {
     const newStar: ShootingStar = {
       id: Date.now(),
-      x: Math.random() * 50 + 10,
-      y: Math.random() * 30 + 5,
-      angle: Math.random() * 20 + 35,
-      length: Math.random() * 60 + 80,
+      x: Math.random() * 40 + 5,
+      y: Math.random() * 25 + 5,
     };
     setShootingStars((prev) => [...prev, newStar]);
     setTimeout(() => {
       setShootingStars((prev) => prev.filter((s) => s.id !== newStar.id));
-    }, 1200);
+    }, 1000);
   }, []);
 
   useEffect(() => {
@@ -87,7 +83,7 @@ export function StarField({ mousePosition }: StarFieldProps) {
       if (Math.random() > 0.7) {
         spawnShootingStar();
       }
-    }, 10000);
+    }, 12000);
 
     return () => clearInterval(interval);
   }, [spawnShootingStar]);
@@ -141,31 +137,42 @@ export function StarField({ mousePosition }: StarFieldProps) {
           style={{
             left: `${star.x}%`,
             top: `${star.y}%`,
-            transform: `rotate(${star.angle}deg)`,
           }}
         >
-          <div
-            className="relative"
-            style={{
-              width: star.length,
-              height: 2,
-            }}
-          >
-            <div
-              className="absolute right-0 w-2 h-2 rounded-full bg-white"
-              style={{
-                boxShadow: "0 0 6px 2px rgba(255,255,255,0.9), 0 0 12px 4px rgba(255,255,255,0.4)",
-                transform: "translate(50%, -25%)",
-              }}
+          <svg width="80" height="80" viewBox="0 0 80 80" className="overflow-visible">
+            <defs>
+              <linearGradient id={`meteor-${star.id}`} x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="transparent" />
+                <stop offset="60%" stopColor="rgba(255,255,255,0.3)" />
+                <stop offset="90%" stopColor="rgba(255,255,255,0.8)" />
+                <stop offset="100%" stopColor="white" />
+              </linearGradient>
+              <filter id={`glow-${star.id}`}>
+                <feGaussianBlur stdDeviation="2" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
+            <line 
+              x1="0" 
+              y1="0" 
+              x2="50" 
+              y2="35" 
+              stroke={`url(#meteor-${star.id})`}
+              strokeWidth="2"
+              strokeLinecap="round"
+              filter={`url(#glow-${star.id})`}
             />
-            <div
-              className="absolute inset-0"
-              style={{
-                background: "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 30%, rgba(255,255,255,0.5) 70%, rgba(255,255,255,0.9) 100%)",
-                borderRadius: "0 50% 50% 0",
-              }}
+            <circle 
+              cx="50" 
+              cy="35" 
+              r="2" 
+              fill="white"
+              filter={`url(#glow-${star.id})`}
             />
-          </div>
+          </svg>
         </div>
       ))}
     </div>
