@@ -26,16 +26,16 @@ export function Planet({ type, label, size, onClick, mousePosition, delay = 0 }:
 
   const planetConfig = {
     stake: {
-      glow: "rgba(139, 92, 246, 0.35)",
+      glow: "rgba(180, 120, 255, 0.5)",
     },
     unstake: {
-      glow: "rgba(59, 130, 246, 0.35)",
+      glow: "rgba(80, 150, 255, 0.5)",
     },
     security: {
-      glow: "rgba(249, 115, 22, 0.35)",
+      glow: "rgba(255, 140, 50, 0.5)",
     },
     tools: {
-      glow: "rgba(16, 185, 129, 0.35)",
+      glow: "rgba(50, 220, 150, 0.5)",
     },
   };
 
@@ -92,38 +92,28 @@ export function Planet({ type, label, size, onClick, mousePosition, delay = 0 }:
           data-testid={`planet-${type}`}
         >
           <div 
-            className="absolute pointer-events-none rounded-full"
+            className="absolute pointer-events-none"
             style={{
-              inset: -size * 0.1,
-              background: `radial-gradient(circle at center, ${config.glow}, transparent 60%)`,
-              filter: "blur(15px)",
+              inset: -size * 0.08,
+              borderRadius: "50%",
+              background: `radial-gradient(circle at center, ${config.glow} 0%, transparent 70%)`,
+              filter: "blur(20px)",
             }}
           />
 
           <div
-            className="absolute inset-0 rounded-full overflow-hidden"
+            className="absolute rounded-full overflow-hidden"
+            style={{
+              inset: size * 0.02,
+            }}
           >
             <img 
               src={planetImages[type]} 
               alt={label}
-              className="absolute"
-              style={{
-                top: "-10%",
-                left: "-10%",
-                width: "120%",
-                height: "120%",
-                objectFit: "cover",
-              }}
+              className="w-full h-full object-cover"
               draggable={false}
             />
           </div>
-
-          <div
-            className="absolute inset-0 rounded-full pointer-events-none"
-            style={{
-              boxShadow: `inset 0 0 ${size * 0.15}px ${size * 0.05}px rgba(0,0,0,0.6)`,
-            }}
-          />
 
           <motion.div
             className="absolute inset-0 flex items-center justify-center pointer-events-none"
