@@ -250,6 +250,11 @@
   to { transform: rotate(360deg); }
 }
 
+@keyframes planet-atmosphere {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
 
 @keyframes glow-pulse {
   0%, 100% { opacity: 0.5; }

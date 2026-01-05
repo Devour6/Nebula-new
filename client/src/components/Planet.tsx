@@ -26,16 +26,20 @@ export function Planet({ type, label, size, onClick, mousePosition, delay = 0 }:
 
   const planetConfig = {
     stake: {
-      glow: "rgba(139, 92, 246, 0.5)",
+      glow: "rgba(139, 92, 246, 0.4)",
+      rotationSpeed: "25s",
     },
     unstake: {
-      glow: "rgba(59, 130, 246, 0.5)",
+      glow: "rgba(59, 130, 246, 0.4)",
+      rotationSpeed: "35s",
     },
     security: {
-      glow: "rgba(249, 115, 22, 0.5)",
+      glow: "rgba(249, 115, 22, 0.4)",
+      rotationSpeed: "20s",
     },
     tools: {
-      glow: "rgba(16, 185, 129, 0.5)",
+      glow: "rgba(16, 185, 129, 0.4)",
+      rotationSpeed: "30s",
     },
   };
 
@@ -92,25 +96,65 @@ export function Planet({ type, label, size, onClick, mousePosition, delay = 0 }:
           data-testid={`planet-${type}`}
         >
           <div 
-            className="absolute pointer-events-none"
+            className="absolute pointer-events-none rounded-full"
             style={{
-              inset: -size * 0.08,
-              borderRadius: "50%",
-              background: `radial-gradient(circle at center, ${config.glow}, transparent 70%)`,
-              filter: "blur(15px)",
+              inset: -size * 0.06,
+              background: `radial-gradient(circle at center, ${config.glow}, transparent 65%)`,
+              filter: "blur(12px)",
             }}
           />
 
           <div
             className="absolute inset-0 rounded-full overflow-hidden"
+            style={{
+              WebkitMaskImage: "radial-gradient(circle at center, black 0%, black 45%, transparent 50%)",
+              maskImage: "radial-gradient(circle at center, black 0%, black 45%, transparent 50%)",
+            }}
           >
             <img 
               src={planetImages[type]} 
               alt={label}
-              className="w-full h-full object-cover rounded-full"
+              className="w-full h-full object-cover"
+              style={{
+                transform: "scale(1.15)",
+              }}
               draggable={false}
             />
           </div>
+
+          <div
+            className="absolute inset-0 rounded-full overflow-hidden pointer-events-none"
+            style={{
+              animation: `planet-atmosphere ${config.rotationSpeed} linear infinite`,
+            }}
+          >
+            <div
+              className="absolute inset-0"
+              style={{
+                background: `
+                  linear-gradient(90deg, 
+                    transparent 0%, 
+                    transparent 30%,
+                    rgba(255,255,255,0.03) 40%,
+                    rgba(255,255,255,0.08) 50%,
+                    rgba(255,255,255,0.03) 60%,
+                    transparent 70%,
+                    transparent 100%
+                  )
+                `,
+              }}
+            />
+          </div>
+
+          <div
+            className="absolute inset-0 rounded-full pointer-events-none"
+            style={{
+              background: `
+                radial-gradient(circle at 30% 25%, rgba(255,255,255,0.15) 0%, transparent 35%),
+                linear-gradient(135deg, transparent 50%, rgba(0,0,0,0.4) 100%)
+              `,
+            }}
+          />
 
           <motion.div
             className="absolute inset-0 flex items-center justify-center pointer-events-none"
