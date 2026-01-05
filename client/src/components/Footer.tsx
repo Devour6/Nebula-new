@@ -9,7 +9,7 @@ export function Footer() {
       transition={{ duration: 0.5, delay: 1 }}
     >
       <p className="text-white/40 text-sm" data-testid="text-copyright">
-        &copy; 2025 Nebula Stake
+        &copy; 2026 Nebula Node
       </p>
     </motion.footer>
   );

@@ -14,6 +14,8 @@ interface ShootingStar {
   id: number;
   x: number;
   y: number;
+  angle: number;
+  length: number;
 }
 
 interface StarFieldProps {
@@ -69,21 +71,23 @@ export function StarField({ mousePosition }: StarFieldProps) {
   const spawnShootingStar = useCallback(() => {
     const newStar: ShootingStar = {
       id: Date.now(),
-      x: Math.random() * 60,
-      y: Math.random() * 40,
+      x: Math.random() * 50 + 10,
+      y: Math.random() * 30 + 5,
+      angle: Math.random() * 20 + 35,
+      length: Math.random() * 60 + 80,
     };
     setShootingStars((prev) => [...prev, newStar]);
     setTimeout(() => {
       setShootingStars((prev) => prev.filter((s) => s.id !== newStar.id));
-    }, 1500);
+    }, 1200);
   }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (Math.random() > 0.6) {
+      if (Math.random() > 0.7) {
         spawnShootingStar();
       }
-    }, 8000);
+    }, 10000);
 
     return () => clearInterval(interval);
   }, [spawnShootingStar]);
@@ -137,14 +141,31 @@ export function StarField({ mousePosition }: StarFieldProps) {
           style={{
             left: `${star.x}%`,
             top: `${star.y}%`,
+            transform: `rotate(${star.angle}deg)`,
           }}
         >
           <div
-            className="w-24 h-0.5 bg-gradient-to-r from-white via-white/50 to-transparent rounded-full"
+            className="relative"
             style={{
-              boxShadow: "0 0 10px rgba(255,255,255,0.8), 0 0 20px rgba(255,255,255,0.4)",
+              width: star.length,
+              height: 2,
             }}
-          />
+          >
+            <div
+              className="absolute right-0 w-2 h-2 rounded-full bg-white"
+              style={{
+                boxShadow: "0 0 6px 2px rgba(255,255,255,0.9), 0 0 12px 4px rgba(255,255,255,0.4)",
+                transform: "translate(50%, -25%)",
+              }}
+            />
+            <div
+              className="absolute inset-0"
+              style={{
+                background: "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 30%, rgba(255,255,255,0.5) 70%, rgba(255,255,255,0.9) 100%)",
+                borderRadius: "0 50% 50% 0",
+              }}
+            />
+          </div>
         </div>
       ))}
     </div>
