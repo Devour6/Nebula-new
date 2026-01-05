@@ -104,7 +104,9 @@ export function Planet({ type, label, size, onClick, mousePosition, delay = 0 }:
           <div
             className="absolute rounded-full overflow-hidden"
             style={{
-              inset: 0,
+              inset: "5%",
+              width: "90%",
+              height: "90%",
             }}
           >
             <img 
@@ -112,11 +114,12 @@ export function Planet({ type, label, size, onClick, mousePosition, delay = 0 }:
               alt={label}
               className="absolute"
               style={{
-                top: "-10%",
-                left: "-10%",
-                width: "120%",
-                height: "120%",
+                top: "-15%",
+                left: "-15%",
+                width: "130%",
+                height: "130%",
                 objectFit: "cover",
+                borderRadius: "50%",
               }}
               draggable={false}
             />

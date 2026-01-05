@@ -78,7 +78,7 @@ export default function Home() {
             <Planet
               type="stake"
               label="Stake"
-              size={280}
+              size={200}
               onClick={() => handlePlanetClick("stake")}
               mousePosition={mousePosition}
               delay={0}
@@ -89,7 +89,7 @@ export default function Home() {
             <Planet
               type="unstake"
               label="Unstake"
-              size={200}
+              size={150}
               onClick={() => handlePlanetClick("unstake")}
               mousePosition={mousePosition}
               delay={0.1}
@@ -100,7 +100,7 @@ export default function Home() {
             <Planet
               type="security"
               label="Security"
-              size={120}
+              size={100}
               onClick={() => handlePlanetClick("security")}
               mousePosition={mousePosition}
               delay={0.2}
@@ -111,7 +111,7 @@ export default function Home() {
             <Planet
               type="tools"
               label="Tools"
-              size={100}
+              size={80}
               onClick={() => handlePlanetClick("tools")}
               mousePosition={mousePosition}
               delay={0.3}
