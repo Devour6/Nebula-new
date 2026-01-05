@@ -250,15 +250,6 @@
   to { transform: rotate(360deg); }
 }
 
-@keyframes planet-spin {
-  from { transform: rotateY(0deg); }
-  to { transform: rotateY(360deg); }
-}
-
-.planet-rotate {
-  animation: planet-spin 60s linear infinite;
-  transform-style: preserve-3d;
-}
 
 @keyframes glow-pulse {
   0%, 100% { opacity: 0.5; }
@@ -325,19 +316,19 @@
 }
 
 .animate-float-1 {
-  animation: orbit-1 45s linear infinite;
+  animation: orbit-1 50s linear infinite;
 }
 
 .animate-float-2 {
-  animation: orbit-2 55s linear infinite;
+  animation: orbit-2 65s linear infinite;
 }
 
 .animate-float-3 {
-  animation: orbit-3 35s linear infinite;
+  animation: orbit-3 40s linear infinite;
 }
 
 .animate-float-4 {
-  animation: orbit-4 40s linear infinite;
+  animation: orbit-4 55s linear infinite;
 }
 
 .animate-rotate-slow {

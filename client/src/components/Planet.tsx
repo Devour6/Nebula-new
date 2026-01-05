@@ -26,24 +26,16 @@ export function Planet({ type, label, size, onClick, mousePosition, delay = 0 }:
 
   const planetConfig = {
     stake: {
-      glow: "rgba(139, 92, 246, 0.6)",
-      glowColor: "#8B5CF6",
-      hueRotate: 0,
+      glow: "rgba(139, 92, 246, 0.5)",
     },
     unstake: {
-      glow: "rgba(59, 130, 246, 0.6)",
-      glowColor: "#3B82F6",
-      hueRotate: 0,
+      glow: "rgba(59, 130, 246, 0.5)",
     },
     security: {
-      glow: "rgba(249, 115, 22, 0.6)",
-      glowColor: "#F97316",
-      hueRotate: 0,
+      glow: "rgba(249, 115, 22, 0.5)",
     },
     tools: {
-      glow: "rgba(16, 185, 129, 0.6)",
-      glowColor: "#10B981",
-      hueRotate: 0,
+      glow: "rgba(16, 185, 129, 0.5)",
     },
   };
 
@@ -100,41 +92,25 @@ export function Planet({ type, label, size, onClick, mousePosition, delay = 0 }:
           data-testid={`planet-${type}`}
         >
           <div 
-            className="absolute rounded-full pointer-events-none"
+            className="absolute pointer-events-none"
             style={{
-              inset: -size * 0.15,
-              background: `radial-gradient(circle at center, ${config.glow}, transparent 60%)`,
-              filter: "blur(20px)",
+              inset: -size * 0.08,
+              borderRadius: "50%",
+              background: `radial-gradient(circle at center, ${config.glow}, transparent 70%)`,
+              filter: "blur(15px)",
             }}
           />
 
           <div
-            className="absolute inset-0 rounded-full overflow-hidden planet-rotate"
-            style={{
-              boxShadow: `
-                0 0 ${size * 0.2}px ${config.glow},
-                0 0 ${size * 0.5}px ${config.glow},
-                inset -${size * 0.15}px -${size * 0.08}px ${size * 0.25}px rgba(0,0,0,0.5)
-              `,
-              filter: config.hueRotate ? `hue-rotate(${config.hueRotate}deg)` : "none",
-            }}
+            className="absolute inset-0 rounded-full overflow-hidden"
           >
             <img 
               src={planetImages[type]} 
               alt={label}
-              className="w-full h-full object-cover"
-              style={{
-                transform: "scale(1.1)",
-              }}
+              className="w-full h-full object-cover rounded-full"
+              draggable={false}
             />
           </div>
-
-          <div
-            className="absolute inset-0 rounded-full pointer-events-none"
-            style={{
-              background: `linear-gradient(120deg, rgba(255,255,255,0.1) 0%, transparent 40%, rgba(0,0,0,0.3) 100%)`,
-            }}
-          />
 
           <motion.div
             className="absolute inset-0 flex items-center justify-center pointer-events-none"
