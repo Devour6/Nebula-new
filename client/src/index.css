@@ -8,7 +8,7 @@
   --opaque-button-border-intensity: 9;
   --elevate-1: rgba(255,255,255, .04);
   --elevate-2: rgba(255,255,255, .09);
-  --background: 0 0% 0%;
+  --background: 330 67% 2%;
   --foreground: 0 0% 95%;
   --border: 0 0% 12%;
   --card: 0 0% 8%;
@@ -17,15 +17,15 @@
   --sidebar: 0 0% 8%;
   --sidebar-foreground: 0 0% 95%;
   --sidebar-border: 0 0% 11%;
-  --sidebar-primary: 351 100% 62%;
+  --sidebar-primary: 338 100% 50%;
   --sidebar-primary-foreground: 0 0% 98%;
   --sidebar-accent: 0 3% 12%;
   --sidebar-accent-foreground: 0 0% 90%;
-  --sidebar-ring: 351 100% 62%;
+  --sidebar-ring: 338 100% 50%;
   --popover: 0 0% 8%;
   --popover-foreground: 0 0% 92%;
   --popover-border: 0 0% 15%;
-  --primary: 351 100% 62%;
+  --primary: 338 100% 50%;
   --primary-foreground: 0 0% 98%;
   --secondary: 0 3% 14%;
   --secondary-foreground: 0 0% 90%;
@@ -36,13 +36,13 @@
   --destructive: 0 84% 48%;
   --destructive-foreground: 0 0% 98%;
   --input: 0 0% 20%;
-  --ring: 351 100% 62%;
+  --ring: 338 100% 50%;
   --chart-1: 271 81% 70%;
   --chart-2: 203 89% 68%;
   --chart-3: 25 95% 68%;
   --chart-4: 158 64% 65%;
   --chart-5: 280 87% 75%;
-  --font-sans: "Space Grotesk", sans-serif;
+  --font-sans: "MADE Outer Sans Alt", "Space Grotesk", sans-serif;
   --font-serif: Georgia, serif;
   --font-mono: "Space Mono", monospace;
   --radius: .5rem;
@@ -79,7 +79,7 @@
   --opaque-button-border-intensity: 9;
   --elevate-1: rgba(255,255,255, .04);
   --elevate-2: rgba(255,255,255, .09);
-  --background: 0 0% 0%;
+  --background: 330 67% 2%;
   --foreground: 0 0% 95%;
   --border: 0 0% 12%;
   --card: 0 0% 8%;
@@ -88,15 +88,15 @@
   --sidebar: 0 0% 8%;
   --sidebar-foreground: 0 0% 95%;
   --sidebar-border: 0 0% 11%;
-  --sidebar-primary: 351 100% 62%;
+  --sidebar-primary: 338 100% 50%;
   --sidebar-primary-foreground: 0 0% 98%;
   --sidebar-accent: 0 3% 12%;
   --sidebar-accent-foreground: 0 0% 90%;
-  --sidebar-ring: 351 100% 62%;
+  --sidebar-ring: 338 100% 50%;
   --popover: 0 0% 8%;
   --popover-foreground: 0 0% 92%;
   --popover-border: 0 0% 15%;
-  --primary: 351 100% 62%;
+  --primary: 338 100% 50%;
   --primary-foreground: 0 0% 98%;
   --secondary: 0 3% 14%;
   --secondary-foreground: 0 0% 90%;
@@ -107,7 +107,7 @@
   --destructive: 0 84% 48%;
   --destructive-foreground: 0 0% 98%;
   --input: 0 0% 20%;
-  --ring: 351 100% 62%;
+  --ring: 338 100% 50%;
   --chart-1: 271 81% 70%;
   --chart-2: 203 89% 68%;
   --chart-3: 25 95% 68%;
@@ -359,11 +359,11 @@
 }
 
 .gradient-primary {
-  background: linear-gradient(135deg, #FF3366 0%, #FF6B8A 50%, #FFB366 100%);
+  background: linear-gradient(135deg, #FF005B 0%, #FF5B8A 50%, #FF9D6F 100%);
 }
 
 .gradient-primary-muted {
-  background: linear-gradient(135deg, rgba(255,51,102,0.6) 0%, rgba(255,107,138,0.6) 50%, rgba(255,179,102,0.6) 100%);
+  background: linear-gradient(135deg, rgba(255,0,91,0.6) 0%, rgba(255,91,138,0.6) 50%, rgba(255,157,111,0.6) 100%);
 }
 
 .planet-stake {
