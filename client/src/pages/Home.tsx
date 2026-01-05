@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { StarField } from "@/components/StarField";
-import { Planet } from "@/components/Planet";
+import { Planet3D } from "@/components/Planet3D";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { StakeModal } from "@/components/StakeModal";
@@ -75,7 +75,7 @@ export default function Home() {
       <main className="relative z-10 flex items-center justify-center min-h-screen">
         <div className="relative w-full max-w-6xl mx-auto px-8">
           <div className="absolute left-[5%] top-1/2 -translate-y-1/2">
-            <Planet
+            <Planet3D
               type="stake"
               label="Stake"
               size={280}
@@ -86,7 +86,7 @@ export default function Home() {
           </div>
 
           <div className="absolute left-[45%] top-[30%] -translate-x-1/2">
-            <Planet
+            <Planet3D
               type="unstake"
               label="Unstake"
               size={200}
@@ -97,7 +97,7 @@ export default function Home() {
           </div>
 
           <div className="absolute right-[10%] bottom-[15%]">
-            <Planet
+            <Planet3D
               type="security"
               label="Security"
               size={120}
@@ -108,7 +108,7 @@ export default function Home() {
           </div>
 
           <div className="absolute right-[25%] top-[20%]">
-            <Planet
+            <Planet3D
               type="tools"
               label="Tools"
               size={100}
