@@ -94,7 +94,7 @@ export function Planet({ type, label, size, onClick, mousePosition, delay = 0 }:
           <div 
             className="absolute pointer-events-none"
             style={{
-              inset: -size * 0.08,
+              inset: -size * 0.15,
               borderRadius: "50%",
               background: `radial-gradient(circle at center, ${config.glow} 0%, transparent 70%)`,
               filter: "blur(20px)",
@@ -102,24 +102,22 @@ export function Planet({ type, label, size, onClick, mousePosition, delay = 0 }:
           />
 
           <div
-            className="absolute rounded-full overflow-hidden"
             style={{
-              inset: "5%",
-              width: "90%",
-              height: "90%",
+              width: size,
+              height: size,
+              aspectRatio: "1 / 1",
+              borderRadius: "50%",
+              overflow: "hidden",
             }}
           >
             <img 
               src={planetImages[type]} 
               alt={label}
-              className="absolute"
               style={{
-                top: "-15%",
-                left: "-15%",
-                width: "130%",
-                height: "130%",
+                width: "100%",
+                height: "100%",
                 objectFit: "cover",
-                borderRadius: "50%",
+                transform: "scale(1.15)",
               }}
               draggable={false}
             />
