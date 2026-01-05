@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import stakePlanetImg from "@assets/image_1767655627119.png";
 import unstakePlanetImg from "@assets/image_1767655641511.png";
 import securityPlanetImg from "@assets/image_1767655674835.png";
+import toolsPlanetImg from "@assets/generated_images/emerald_green_planet_texture.png";
 
 interface PlanetProps {
   type: "stake" | "unstake" | "security" | "tools";
@@ -16,33 +17,33 @@ interface PlanetProps {
 export function Planet({ type, label, size, onClick, mousePosition, delay = 0 }: PlanetProps) {
   const [isHovered, setIsHovered] = useState(false);
 
-  const planetImages = {
+  const planetImages: Record<string, string> = {
     stake: stakePlanetImg,
     unstake: unstakePlanetImg,
     security: securityPlanetImg,
-    tools: securityPlanetImg,
+    tools: toolsPlanetImg,
   };
 
   const planetConfig = {
     stake: {
-      atmosphere: "rgba(167, 139, 250, 0.25)",
-      glow: "rgba(139, 92, 246, 0.5)",
-      rotationDuration: "40s",
+      glow: "rgba(139, 92, 246, 0.6)",
+      glowColor: "#8B5CF6",
+      hueRotate: 0,
     },
     unstake: {
-      atmosphere: "rgba(96, 165, 250, 0.25)",
-      glow: "rgba(59, 130, 246, 0.5)",
-      rotationDuration: "50s",
+      glow: "rgba(59, 130, 246, 0.6)",
+      glowColor: "#3B82F6",
+      hueRotate: 0,
     },
     security: {
-      atmosphere: "rgba(251, 146, 60, 0.25)",
-      glow: "rgba(249, 115, 22, 0.5)",
-      rotationDuration: "35s",
+      glow: "rgba(249, 115, 22, 0.6)",
+      glowColor: "#F97316",
+      hueRotate: 0,
     },
     tools: {
-      atmosphere: "rgba(52, 211, 153, 0.25)",
-      glow: "rgba(16, 185, 129, 0.5)",
-      rotationDuration: "45s",
+      glow: "rgba(16, 185, 129, 0.6)",
+      glowColor: "#10B981",
+      hueRotate: 0,
     },
   };
 
@@ -101,32 +102,29 @@ export function Planet({ type, label, size, onClick, mousePosition, delay = 0 }:
           <div 
             className="absolute rounded-full pointer-events-none"
             style={{
-              inset: -size * 0.1,
-              background: `radial-gradient(circle at 30% 30%, ${config.atmosphere}, transparent 60%)`,
-              filter: "blur(12px)",
+              inset: -size * 0.15,
+              background: `radial-gradient(circle at center, ${config.glow}, transparent 60%)`,
+              filter: "blur(20px)",
             }}
           />
 
           <div
-            className="absolute inset-0 rounded-full overflow-hidden"
+            className="absolute inset-0 rounded-full overflow-hidden planet-rotate"
             style={{
               boxShadow: `
-                0 0 ${size * 0.3}px ${config.glow},
-                0 0 ${size * 0.6}px ${config.glow}
+                0 0 ${size * 0.2}px ${config.glow},
+                0 0 ${size * 0.5}px ${config.glow},
+                inset -${size * 0.15}px -${size * 0.08}px ${size * 0.25}px rgba(0,0,0,0.5)
               `,
+              filter: config.hueRotate ? `hue-rotate(${config.hueRotate}deg)` : "none",
             }}
           >
-            <div
-              className="absolute"
+            <img 
+              src={planetImages[type]} 
+              alt={label}
+              className="w-full h-full object-cover"
               style={{
-                top: 0,
-                left: 0,
-                width: size * 2,
-                height: size,
-                backgroundImage: `url(${planetImages[type]})`,
-                backgroundSize: `${size}px ${size}px`,
-                backgroundRepeat: "repeat-x",
-                animation: `scroll-planet ${config.rotationDuration} linear infinite`,
+                transform: "scale(1.1)",
               }}
             />
           </div>
@@ -134,20 +132,7 @@ export function Planet({ type, label, size, onClick, mousePosition, delay = 0 }:
           <div
             className="absolute inset-0 rounded-full pointer-events-none"
             style={{
-              background: `linear-gradient(100deg, transparent 40%, rgba(0,0,0,0.6) 100%)`,
-            }}
-          />
-
-          <div
-            className="absolute rounded-full pointer-events-none"
-            style={{
-              top: size * 0.05,
-              left: size * 0.08,
-              width: size * 0.3,
-              height: size * 0.18,
-              background: `radial-gradient(ellipse at center, rgba(255,255,255,0.25) 0%, transparent 70%)`,
-              transform: "rotate(-25deg)",
-              filter: "blur(4px)",
+              background: `linear-gradient(120deg, rgba(255,255,255,0.1) 0%, transparent 40%, rgba(0,0,0,0.3) 100%)`,
             }}
           />
 
