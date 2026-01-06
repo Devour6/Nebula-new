@@ -45,9 +45,13 @@ export function StakeModal({ isOpen, onClose, availableBalance, onStake, isStaki
         data-testid="modal-stake"
       >
         <div className="flex items-center gap-3 mb-6">
-          <div className="w-8 h-8 gradient-primary rounded flex items-center justify-center">
+          <button
+            onClick={onClose}
+            className="w-8 h-8 gradient-primary rounded flex items-center justify-center cursor-pointer"
+            data-testid="button-back-stake"
+          >
             <ArrowLeft className="w-5 h-5 text-white" />
-          </div>
+          </button>
           <h2 className="text-xl font-bold text-white tracking-wide">
             STAKE SOLANA
           </h2>

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Modal } from "./Modal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ArrowRight, Wallet } from "lucide-react";
+import { ArrowLeft, Wallet } from "lucide-react";
 import { formatEpochDate, getNextEpochDate } from "@/lib/constants";
 
 interface UnstakeModalProps {
@@ -44,9 +44,13 @@ export function UnstakeModal({ isOpen, onClose, stakedBalance, onUnstake, isUnst
         data-testid="modal-unstake"
       >
         <div className="flex items-center gap-3 mb-6">
-          <div className="w-8 h-8 gradient-primary rounded flex items-center justify-center">
-            <ArrowRight className="w-5 h-5 text-white" />
-          </div>
+          <button
+            onClick={onClose}
+            className="w-8 h-8 gradient-primary rounded flex items-center justify-center cursor-pointer"
+            data-testid="button-back-unstake"
+          >
+            <ArrowLeft className="w-5 h-5 text-white" />
+          </button>
           <h2 className="text-xl font-bold text-white tracking-wide">
             UNSTAKE SOLANA
           </h2>
