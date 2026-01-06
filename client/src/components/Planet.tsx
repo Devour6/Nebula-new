@@ -105,23 +105,13 @@ export function Planet({ type, label, size, onClick, mousePosition, delay = 0 }:
             style={{
               width: size,
               height: size,
-              aspectRatio: "1 / 1",
               borderRadius: "50%",
-              overflow: "hidden",
+              backgroundImage: `url(${planetImages[type]})`,
+              backgroundSize: "150%",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
             }}
-          >
-            <img 
-              src={planetImages[type]} 
-              alt={label}
-              style={{
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-                transform: "scale(1.25)",
-              }}
-              draggable={false}
-            />
-          </div>
+          />
 
           <motion.div
             className="absolute inset-0 flex items-center justify-center pointer-events-none"
