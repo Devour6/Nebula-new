@@ -117,7 +117,7 @@ export function Planet({ type, label, size, onClick, mousePosition, delay = 0 }:
                 width: "100%",
                 height: "100%",
                 objectFit: "cover",
-                transform: "scale(1.15)",
+                transform: "scale(1.25)",
               }}
               draggable={false}
             />

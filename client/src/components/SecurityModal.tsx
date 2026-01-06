@@ -1,6 +1,6 @@
 import { Modal } from "./Modal";
 import { VALIDATOR_CONFIG } from "@/lib/constants";
-import { Shield } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 interface SecurityModalProps {
   isOpen: boolean;
@@ -15,9 +15,13 @@ export function SecurityModal({ isOpen, onClose }: SecurityModalProps) {
         data-testid="modal-security"
       >
         <div className="flex items-center gap-3 mb-6">
-          <div className="w-8 h-8 bg-orange-500/20 rounded flex items-center justify-center">
-            <Shield className="w-5 h-5 text-orange-400" />
-          </div>
+          <button
+            onClick={onClose}
+            className="w-8 h-8 bg-orange-500/20 rounded flex items-center justify-center cursor-pointer"
+            data-testid="button-back-security"
+          >
+            <ArrowLeft className="w-5 h-5 text-orange-400" />
+          </button>
           <h2 className="text-xl font-bold text-white tracking-wide">
             Security
           </h2>
