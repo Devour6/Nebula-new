@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { StarField } from "@/components/StarField";
 import { Planet } from "@/components/Planet";
 import { Header } from "@/components/Header";
@@ -10,6 +10,7 @@ import { ToolsDropdown } from "@/components/ToolsDropdown";
 import { useWallet } from "@/hooks/useWallet";
 import { useStaking } from "@/hooks/useStaking";
 import { useToast } from "@/hooks/use-toast";
+import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 
 type ModalType = "stake" | "unstake" | "security" | "tools" | null;
 
@@ -38,8 +39,16 @@ export default function Home() {
   const [activeModal, setActiveModal] = useState<ModalType>(null);
   const { width } = useWindowSize();
   
-  const { walletAddress, isConnecting, balance, stakedBalance, connect, disconnect, isConnected } = useWallet();
-  const { stake, unstake, isStaking, isUnstaking } = useStaking();
+  const { walletAddress, isConnecting, balance, connect, disconnect, isConnected } = useWallet();
+  const { 
+    stake, 
+    unstake, 
+    isStaking, 
+    isUnstaking, 
+    totalStaked,
+    stakeAccounts,
+    refetchStakeAccounts 
+  } = useStaking();
   const { toast } = useToast();
 
   const handleMouseMove = useCallback((e: MouseEvent) => {
@@ -58,6 +67,14 @@ export default function Home() {
     setActiveModal(type);
   };
 
+  // Calculate available balance (wallet balance - rent if no stake accounts)
+  const availableBalance = useMemo(() => {
+    if (!isConnected) return 0;
+    // If user has no stake accounts, reserve rent for new account (~2.28 SOL)
+    const rentReserve = stakeAccounts.length === 0 ? 2.28 : 0;
+    return Math.max(0, balance - rentReserve);
+  }, [balance, isConnected, stakeAccounts.length]);
+
   const handleStake = async (amount: number) => {
     if (!isConnected) {
       toast({
@@ -66,7 +83,10 @@ export default function Home() {
       });
       return;
     }
-    await stake(amount);
+    const signature = await stake(amount);
+    if (signature) {
+      refetchStakeAccounts();
+    }
   };
 
   const handleUnstake = async (amount: number) => {
@@ -77,7 +97,47 @@ export default function Home() {
       });
       return;
     }
-    await unstake(amount);
+
+    const amountNum = parseFloat(amount.toString());
+    if (isNaN(amountNum) || amountNum <= 0) {
+      toast({
+        title: "Invalid amount",
+        description: "Please enter a valid amount to unstake.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Find a stake account to unstake from
+    const amountLamports = amountNum * LAMPORTS_PER_SOL;
+    const accountToUnstake = stakeAccounts.find(
+      (acc) => acc.lamports >= amountLamports && acc.isActive
+    );
+
+    if (!accountToUnstake) {
+      // If no single account has enough, unstake from the largest active one
+      const largestAccount = stakeAccounts
+        .filter((acc) => acc.isActive)
+        .sort((a, b) => b.lamports - a.lamports)[0];
+
+      if (largestAccount) {
+        const signature = await unstake(largestAccount.pubkey);
+        if (signature) {
+          refetchStakeAccounts();
+        }
+      } else {
+        toast({
+          title: "No active stake accounts",
+          description: "You don't have any active stake accounts to unstake from.",
+          variant: "destructive",
+        });
+      }
+    } else {
+      const signature = await unstake(accountToUnstake.pubkey);
+      if (signature) {
+        refetchStakeAccounts();
+      }
+    }
   };
 
   const closeModal = () => setActiveModal(null);
@@ -200,7 +260,7 @@ export default function Home() {
       <StakeModal
         isOpen={activeModal === "stake"}
         onClose={closeModal}
-        availableBalance={isConnected ? balance : 0}
+        availableBalance={availableBalance}
         onStake={handleStake}
         isStaking={isStaking}
         isConnected={isConnected}
@@ -210,7 +270,7 @@ export default function Home() {
       <UnstakeModal
         isOpen={activeModal === "unstake"}
         onClose={closeModal}
-        stakedBalance={isConnected ? stakedBalance : 0}
+        stakedBalance={totalStaked}
         onUnstake={handleUnstake}
         isUnstaking={isUnstaking}
         isConnected={isConnected}

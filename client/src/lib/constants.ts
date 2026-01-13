@@ -5,7 +5,11 @@ export const VALIDATOR_CONFIG = {
   website: "https://nebulanode.io",
 };
 
+export const VALIDATOR_ADDRESS = VALIDATOR_CONFIG.votePubkey;
+
 export const SOLANA_NETWORK = "mainnet-beta";
+
+export const SOLANA_RPC_URL = "https://api.mainnet-beta.solana.com";
 
 export function truncateAddress(address: string, chars = 4): string {
   if (!address) return "";
