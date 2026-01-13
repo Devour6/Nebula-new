@@ -100,12 +100,7 @@ export function StakeModal({ isOpen, onClose, availableBalance, onStake, isStaki
             </div>
 
             <div className="flex items-center gap-3 bg-muted rounded-lg p-4">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-blue-500 rounded-full flex items-center justify-center">
-                  <span className="text-white font-bold text-sm">S</span>
-                </div>
-                <span className="text-white font-semibold">SOL</span>
-              </div>
+              <span className="text-white font-semibold">SOL</span>
               <Input
                 type="number"
                 value={amount}
