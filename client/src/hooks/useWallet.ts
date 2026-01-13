@@ -1,127 +1,51 @@
-import { useState, useCallback, useEffect } from "react";
-import { Connection, PublicKey, LAMPORTS_PER_SOL } from "@solana/web3.js";
-
-interface PhantomProvider {
-  isPhantom: boolean;
-  publicKey: PublicKey | null;
-  isConnected: boolean;
-  connect: () => Promise<{ publicKey: PublicKey }>;
-  disconnect: () => Promise<void>;
-  on: (event: string, callback: (...args: unknown[]) => void) => void;
-  off: (event: string, callback: (...args: unknown[]) => void) => void;
-}
-
-declare global {
-  interface Window {
-    solana?: PhantomProvider;
-  }
-}
-
-const SOLANA_RPC = "https://api.mainnet-beta.solana.com";
+import { useWallet as useWalletAdapter } from "@solana/wallet-adapter-react";
+import { useConnection } from "@solana/wallet-adapter-react";
+import { useQuery } from "@tanstack/react-query";
+import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 
 export function useWallet() {
-  const [walletAddress, setWalletAddress] = useState<string | null>(null);
-  const [isConnecting, setIsConnecting] = useState(false);
-  const [balance, setBalance] = useState(0);
-  const [stakedBalance, setStakedBalance] = useState(0);
+  const wallet = useWalletAdapter();
+  const { connection } = useConnection();
 
-  const getProvider = (): PhantomProvider | null => {
-    if (typeof window !== "undefined" && window.solana?.isPhantom) {
-      return window.solana;
-    }
-    return null;
+  // Fetch SOL balance
+  const { data: balance, ...balanceQuery } = useQuery({
+    queryKey: ["wallet-balance", wallet.publicKey?.toString()],
+    queryFn: async () => {
+      if (!wallet.publicKey) return 0;
+      const balance = await connection.getBalance(wallet.publicKey);
+      return balance / LAMPORTS_PER_SOL;
+    },
+    enabled: !!wallet.publicKey,
+    refetchInterval: 10000, // Refetch every 10 seconds
+  });
+
+  const formatAddress = (address: string | null | undefined) => {
+    if (!address) return "...";
+    return `${address.slice(0, 4)}...${address.slice(-4)}`;
   };
 
-  const fetchBalance = useCallback(async (address: string) => {
-    try {
-      const connection = new Connection(SOLANA_RPC);
-      const publicKey = new PublicKey(address);
-      const balanceLamports = await connection.getBalance(publicKey);
-      setBalance(balanceLamports / LAMPORTS_PER_SOL);
-    } catch (error) {
-      console.error("Failed to fetch balance:", error);
-      setBalance(0);
-    }
-  }, []);
-
-  const connect = useCallback(async () => {
-    const provider = getProvider();
-    
-    if (!provider) {
-      window.open("https://phantom.app/", "_blank");
-      return;
-    }
-
-    try {
-      setIsConnecting(true);
-      const response = await provider.connect();
-      const address = response.publicKey.toString();
-      setWalletAddress(address);
-      await fetchBalance(address);
-    } catch (error) {
-      console.error("Failed to connect wallet:", error);
-    } finally {
-      setIsConnecting(false);
-    }
-  }, [fetchBalance]);
-
-  const disconnect = useCallback(async () => {
-    const provider = getProvider();
-    
-    if (provider) {
-      try {
-        await provider.disconnect();
-      } catch (error) {
-        console.error("Failed to disconnect:", error);
-      }
-    }
-    
-    setWalletAddress(null);
-    setBalance(0);
-    setStakedBalance(0);
-  }, []);
-
-  useEffect(() => {
-    const provider = getProvider();
-    if (provider && provider.isConnected && provider.publicKey) {
-      const address = provider.publicKey.toString();
-      setWalletAddress(address);
-      fetchBalance(address);
-    }
-  }, [fetchBalance]);
-
-  useEffect(() => {
-    const provider = getProvider();
-    if (!provider) return;
-
-    const handleConnect = (publicKey: PublicKey) => {
-      const address = publicKey.toString();
-      setWalletAddress(address);
-      fetchBalance(address);
-    };
-
-    const handleDisconnect = () => {
-      setWalletAddress(null);
-      setBalance(0);
-      setStakedBalance(0);
-    };
-
-    provider.on("connect", handleConnect as unknown as (...args: unknown[]) => void);
-    provider.on("disconnect", handleDisconnect);
-
-    return () => {
-      provider.off("connect", handleConnect as unknown as (...args: unknown[]) => void);
-      provider.off("disconnect", handleDisconnect);
-    };
-  }, [fetchBalance]);
-
   return {
-    walletAddress,
-    isConnecting,
-    balance,
-    stakedBalance,
-    connect,
-    disconnect,
-    isConnected: !!walletAddress,
+    walletAddress: wallet.publicKey?.toString() ?? null,
+    isConnecting: wallet.connecting,
+    balance: balance ?? 0,
+    isLoadingBalance: balanceQuery.isLoading,
+    formatAddress,
+    isConnected: !!wallet.publicKey && wallet.connected,
+    connect: async () => {
+      try {
+        await wallet.connect();
+      } catch (error) {
+        console.error("Failed to connect wallet:", error);
+      }
+    },
+    disconnect: async () => {
+      try {
+        await wallet.disconnect();
+      } catch (error) {
+        console.error("Failed to disconnect wallet:", error);
+      }
+    },
+    // Expose stakedBalance for compatibility (will be calculated in useStaking)
+    stakedBalance: 0,
   };
 }
